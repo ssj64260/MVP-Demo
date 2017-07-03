@@ -6,6 +6,7 @@ import com.cxb.mvp_project.model.FamilyBean;
 import com.cxb.mvp_project.model.FamilyModel;
 import com.cxb.mvp_project.view.IFamilyView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
@@ -46,6 +47,9 @@ public class FamilyPresenter implements IBasePresenter<IFamilyView> {
                     .subscribe(new Consumer<List<FamilyBean>>() {
                         @Override
                         public void accept(@NonNull List<FamilyBean> familyList) throws Exception {
+                            List<FamilyBean> temp = new ArrayList<>(1);
+                            temp.add(null);
+                            familyList.removeAll(temp);
                             saveFamilyData(familyList, familyId);
                         }
                     }, new Consumer<Throwable>() {
