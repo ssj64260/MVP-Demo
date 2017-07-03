@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">MVP-Demo</string>
+
+    <string name="text_contacts_permission_message">在设置-应用-%1$s-权限中开启通讯录权限，以正常使用获取联系人信息功能</string>
+    <string name="text_call_permission_message">在设置-应用-%1$s-权限中开启电话权限，以正常使用该功能</string>
+    <string name="text_calendar_permission_message">在设置-应用-%1$s-权限中开启日历权限，以正常使用该功能</string>
+    <string name="text_camera_permission_message">在设置-应用-%1$s-权限中开启相机权限，以正常使用该功能</string>
+    <string name="text_location_permission_message">在设置-应用-%1$s-权限中开启位置信息权限，以正常使用该功能</string>
+    <string name="text_storage_permission_message">在设置-应用-%1$s-权限中开启存储权限，以正常使用该功能</string>
+    <string name="text_audio_permission_message">在设置-应用-%1$s-权限中开启麦克风权限，以正常使用该功能</string>
+    <string name="text_sms_permission_message">在设置-应用-%1$s-权限中开启短信权限，以正常使用该功能</string>
+    <string name="text_sensors_permission_message">在设置-应用-%1$s-权限中开启身体传感器权限，以正常使用该功能</string>
+
+    <!--loading_message-->
+    <string name="text_loading">加载中...</string>
+
+    <!--activity_main-->
+    <string name="title_use_realm_database">使用 Realm 数据库存储</string>
+    <string name="btn_not_foster_parent">没有养父母</string>
+    <string name="btn_have_foster_parent">有养父母</string>
+
+    <!--LaunchActivity-->
+    <string name="permission_dialog_title">权限申请</string>
+    <string name="permission_dialog_btn_setting">去设置</string>
+    <string name="permission_dialog_btn_cancel">取消</string>
+
+
+    <string name="tosat_double_click_to_exit">再次点击退出程序</string>
+
+    <!--FamilyTreeActivity-->
+    <string name="title_not_foster_parent">没有养父母</string>
+    <string name="title_have_foster_parent">有养父母</string>
+    <string name="toast_get_familytree_failure">获取家谱树失败</string>
+
+</resources>
