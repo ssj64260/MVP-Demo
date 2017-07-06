@@ -12,5 +12,6 @@ public interface ImageLoaderWrapper {
 
     void loadWithoutAnimate(ImageView imageView, String url, BitmapTransformation transformation, int placeholder, int errorImage);
 
-    void loadWithAnimate(ImageView imageView, String url, BitmapTransformation transformation);
+    void loadImage(ImageView imageView, String url);
+
 }

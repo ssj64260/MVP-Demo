@@ -3,7 +3,6 @@ package com.cxb.mvp_project.widget.imageloader;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.cxb.mvp_project.R;
 import com.cxb.mvp_project.app.APP;
@@ -14,18 +13,8 @@ import com.cxb.mvp_project.app.APP;
 
 public class ImageLoader implements ImageLoaderWrapper {
 
-    @Override
-    public void loadWithAnimate(ImageView imageView, String url, BitmapTransformation transformation) {
-        Glide.with(APP.getInstance())
-                .load(url)
-                .placeholder(R.drawable.family_avatar)
-                .error(R.drawable.family_avatar)
-                .centerCrop()
-                .transform(transformation)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .animate(R.anim.anime_scale)
-                .into(imageView);
-    }
+    private final int placeholder = R.drawable.ic_no_image;
+    private final int errorImage = R.drawable.ic_no_image;
 
     @Override
     public void loadWithoutAnimate(ImageView imageView, String url, BitmapTransformation transformation, int placeholder, int errorImage) {
@@ -35,6 +24,17 @@ public class ImageLoader implements ImageLoaderWrapper {
                 .error(errorImage)
                 .centerCrop()
                 .transform(transformation)
+                .dontAnimate()
+                .into(imageView);
+    }
+
+    @Override
+    public void loadImage(ImageView imageView, String url) {
+        Glide.with(APP.getInstance())
+                .load(url)
+                .placeholder(placeholder)
+                .error(errorImage)
+                .centerCrop()
                 .dontAnimate()
                 .into(imageView);
     }

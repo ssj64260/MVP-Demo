@@ -1,6 +1,8 @@
 package com.cxb.mvp_project.widget.familytree;
 
 
+import android.view.View;
+
 import com.cxb.mvp_project.model.FamilyBean;
 
 /**
@@ -8,5 +10,5 @@ import com.cxb.mvp_project.model.FamilyBean;
  */
 
 public interface OnFamilySelectListener {
-    void onFamilySelect(FamilyBean family);
+    void onFamilySelect(View view, FamilyBean family);
 }

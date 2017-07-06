@@ -1,6 +1,10 @@
 package com.cxb.mvp_project.model;
 
-import io.realm.RealmList;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.List;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -9,7 +13,7 @@ import io.realm.annotations.PrimaryKey;
  * 家族人员
  */
 
-public class FamilyBean extends RealmObject {
+public class FamilyBean extends RealmObject implements Parcelable {
 
     @PrimaryKey
     private String memberId;//人员ID
@@ -35,9 +39,9 @@ public class FamilyBean extends RealmObject {
     @Ignore
     private FamilyBean mother;//母亲
     @Ignore
-    private RealmList<FamilyBean> brothers;//兄弟姐妹
+    private List<FamilyBean> brothers;//兄弟姐妹
     @Ignore
-    private RealmList<FamilyBean> children;//儿女
+    private List<FamilyBean> children;//儿女
     @Ignore
     private boolean isSelect = false;//是否选中
 
@@ -153,19 +157,19 @@ public class FamilyBean extends RealmObject {
         this.mother = mother;
     }
 
-    public RealmList<FamilyBean> getBrothers() {
+    public List<FamilyBean> getBrothers() {
         return brothers;
     }
 
-    public void setBrothers(RealmList<FamilyBean> brothers) {
+    public void setBrothers(List<FamilyBean> brothers) {
         this.brothers = brothers;
     }
 
-    public RealmList<FamilyBean> getChildren() {
+    public List<FamilyBean> getChildren() {
         return children;
     }
 
-    public void setChildren(RealmList<FamilyBean> children) {
+    public void setChildren(List<FamilyBean> children) {
         this.children = children;
     }
 
@@ -176,4 +180,65 @@ public class FamilyBean extends RealmObject {
     public void setSelect(boolean select) {
         isSelect = select;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.memberId);
+        dest.writeString(this.memberName);
+        dest.writeString(this.call);
+        dest.writeString(this.memberImg);
+        dest.writeString(this.fatherId);
+        dest.writeString(this.motherId);
+        dest.writeString(this.spouseId);
+        dest.writeString(this.mothersId);
+        dest.writeString(this.fathersId);
+        dest.writeParcelable(this.spouse, flags);
+        dest.writeParcelable(this.fosterFather, flags);
+        dest.writeParcelable(this.fosterMother, flags);
+        dest.writeParcelable(this.father, flags);
+        dest.writeParcelable(this.mother, flags);
+        dest.writeTypedList(this.brothers);
+        dest.writeTypedList(this.children);
+        dest.writeByte(this.isSelect ? (byte) 1 : (byte) 0);
+    }
+
+    public FamilyBean() {
+    }
+
+    protected FamilyBean(Parcel in) {
+        this.memberId = in.readString();
+        this.memberName = in.readString();
+        this.call = in.readString();
+        this.memberImg = in.readString();
+        this.fatherId = in.readString();
+        this.motherId = in.readString();
+        this.spouseId = in.readString();
+        this.mothersId = in.readString();
+        this.fathersId = in.readString();
+        this.spouse = in.readParcelable(FamilyBean.class.getClassLoader());
+        this.fosterFather = in.readParcelable(FamilyBean.class.getClassLoader());
+        this.fosterMother = in.readParcelable(FamilyBean.class.getClassLoader());
+        this.father = in.readParcelable(FamilyBean.class.getClassLoader());
+        this.mother = in.readParcelable(FamilyBean.class.getClassLoader());
+        this.brothers = in.createTypedArrayList(FamilyBean.CREATOR);
+        this.children = in.createTypedArrayList(FamilyBean.CREATOR);
+        this.isSelect = in.readByte() != 0;
+    }
+
+    public static final Creator<FamilyBean> CREATOR = new Creator<FamilyBean>() {
+        @Override
+        public FamilyBean createFromParcel(Parcel source) {
+            return new FamilyBean(source);
+        }
+
+        @Override
+        public FamilyBean[] newArray(int size) {
+            return new FamilyBean[size];
+        }
+    };
 }

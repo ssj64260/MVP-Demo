@@ -7,7 +7,6 @@ import com.cxb.mvp_project.model.FamilyBean;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -102,8 +101,8 @@ public class DataBaseLoader implements DataBaseLoaderWrapper {
     }
 
     @Override
-    public RealmList<FamilyBean> findChildrenByParentId(String parentId) {
-        RealmList<FamilyBean> children = findFamiliesByParentId(parentId, parentId, parentId);
+    public List<FamilyBean> findChildrenByParentId(String parentId) {
+        List<FamilyBean> children = findFamiliesByParentId(parentId, parentId, parentId);
         for (FamilyBean child : children) {
             String childId = child.getMemberId();
             String childSpouseId = child.getSpouseId();
@@ -116,7 +115,7 @@ public class DataBaseLoader implements DataBaseLoaderWrapper {
     }
 
     @Override
-    public RealmList<FamilyBean> findFamiliesByParentId(String myId, String fatherId, String motherId) {
+    public List<FamilyBean> findFamiliesByParentId(String myId, String fatherId, String motherId) {
         String parentId = null;
         if (!TextUtils.isEmpty(fatherId)) {
             parentId = fatherId;
@@ -125,7 +124,6 @@ public class DataBaseLoader implements DataBaseLoaderWrapper {
         }
 
         if (!TextUtils.isEmpty(parentId)) {
-            RealmList<FamilyBean> list = new RealmList<>();
             RealmResults<FamilyBean> results = mRealm.where(FamilyBean.class)
                     .notEqualTo("memberId", myId)
                     .findAll()
@@ -134,8 +132,7 @@ public class DataBaseLoader implements DataBaseLoaderWrapper {
                     .or()
                     .equalTo("motherId", parentId)
                     .findAll();
-            list.addAll(mRealm.copyFromRealm(results));
-            return list;
+            return mRealm.copyFromRealm(results);
         }
 
         return null;

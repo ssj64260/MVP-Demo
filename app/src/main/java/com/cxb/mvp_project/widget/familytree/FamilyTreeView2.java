@@ -815,7 +815,7 @@ public class FamilyTreeView2 extends ViewGroup {
                 mCurrentTop = v.getTop();
                 mCurrentScrollX = getScrollX();
                 mCurrentScrollY = getScrollY();
-                mOnFamilySelectListener.onFamilySelect((FamilyBean) v.getTag());
+                mOnFamilySelectListener.onFamilySelect(v, (FamilyBean) v.getTag());
             }
         }
     };

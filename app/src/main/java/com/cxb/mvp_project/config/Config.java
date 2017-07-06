@@ -12,6 +12,8 @@ public class Config {
 
     public static final int REQUEST_TO_SETTING = 0;//跳转到系统设置权限页面
 
+    public static final int GANK_IMAGE_MAX_WIDTH = 150;//干货图片最大宽度限制
+
     public static final String PERMISSION_CONTACTS = Manifest.permission.READ_CONTACTS;//通讯录
     public static final String PERMISSION_CALL = Manifest.permission.CALL_PHONE;//电话
     public static final String PERMISSION_CALENDAR = Manifest.permission.READ_CALENDAR;//日历

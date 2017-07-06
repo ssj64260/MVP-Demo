@@ -14,13 +14,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 网络请求配置
  */
 
-public class ServiceCilent {
+public class ServiceClient {
 
     private static ServiceApi mService;
 
     public static ServiceApi getService() {
         if (mService == null) {
-            createService();
+            synchronized (ServiceClient.class) {
+                if (mService == null) {
+                    createService();
+                }
+            }
         }
         return mService;
     }
@@ -38,7 +42,7 @@ public class ServiceCilent {
                 .build();
 
         return new Retrofit.Builder()
-                .baseUrl(API.BASE_HOST)
+                .baseUrl(API.GANK_BASE_HOST)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)

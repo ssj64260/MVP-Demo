@@ -186,7 +186,7 @@ public class HttpInterceptor implements Interceptor {
         }
 
         Logger.d(httpMessage.toString());
-        Logger.json(responseText);
+//        Logger.json(responseText);
 
         return response;
     }

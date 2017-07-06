@@ -4,8 +4,6 @@ import com.cxb.mvp_project.model.FamilyBean;
 
 import java.util.List;
 
-import io.realm.RealmList;
-
 /**
  * 数据库工具 接口
  */
@@ -24,7 +22,7 @@ public interface DataBaseLoaderWrapper {
 
     FamilyBean findFamilyAndParentById(String familyId);
 
-    RealmList<FamilyBean> findChildrenByParentId(String parentId);
+    List<FamilyBean> findChildrenByParentId(String parentId);
 
-    RealmList<FamilyBean> findFamiliesByParentId(String myId, String fatherId, String motherId);
+    List<FamilyBean> findFamiliesByParentId(String myId, String fatherId, String motherId);
 }

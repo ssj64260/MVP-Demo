@@ -17,6 +17,7 @@
         android:minWidth="60dp"
         android:padding="2dp"
         android:src="@drawable/family_avatar"
+        android:transitionName="user_avatar"
         tools:background="@drawable/shape_red_circle" />
 
     <TextView
@@ -28,6 +29,7 @@
         android:maxLines="1"
         android:textColor="#0c0c0c"
         android:textSize="14sp"
+        android:transitionName="user_name"
         tools:text="囧恩" />
 
     <TextView
@@ -38,6 +40,7 @@
         android:maxLines="1"
         android:textColor="#0c0c0c"
         android:textSize="12sp"
+        android:transitionName="user_call"
         tools:text="配偶配偶" />
 
 </LinearLayout>

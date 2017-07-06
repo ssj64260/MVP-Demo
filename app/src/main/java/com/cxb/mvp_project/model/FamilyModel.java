@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.cxb.mvp_project.config.Config;
 import com.cxb.mvp_project.config.ServiceApi;
-import com.cxb.mvp_project.service.ServiceCilent;
+import com.cxb.mvp_project.service.ServiceClient;
 import com.cxb.mvp_project.utils.AssetsUtil;
 import com.cxb.mvp_project.widget.database.DataBaseLoader;
 import com.google.gson.Gson;
@@ -47,7 +47,7 @@ public class FamilyModel {
     }
 
     public Observable<List<FamilyBean>> initRemoteFamilyTree(final String familyId) {
-        ServiceApi api = ServiceCilent.getService();
+        ServiceApi api = ServiceClient.getService();
 
         return api.getFamilyTreeCall(familyId)
                 .subscribeOn(Schedulers.io())

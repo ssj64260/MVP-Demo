@@ -2,6 +2,8 @@ package com.cxb.mvp_project.ui.familytree;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,8 +30,6 @@ public class FamilyTreeActivity extends BaseActivity implements IFamilyView {
     private FamilyTreeView2 ftvTree2;//有养父母
 
     private boolean haveFosterParent = false;//是否有养父母
-
-    private Intent mQQMessageIntent;
 
     private FamilyPresenter mFamilyPresenter;
 
@@ -59,9 +59,6 @@ public class FamilyTreeActivity extends BaseActivity implements IFamilyView {
     }
 
     private void initData() {
-//        mQQMessageIntent = new Intent(this, QQMessageService.class);
-//        startService(mQQMessageIntent);
-
         haveFosterParent = getIntent().getBooleanExtra(HAVE_FOSTER_PARENT, false);
         if (haveFosterParent) {
             tvChangeType.setText(getString(R.string.title_have_foster_parent));
@@ -81,9 +78,21 @@ public class FamilyTreeActivity extends BaseActivity implements IFamilyView {
 
     private OnFamilySelectListener familySelect = new OnFamilySelectListener() {
         @Override
-        public void onFamilySelect(final FamilyBean family) {
+        public void onFamilySelect(View view, final FamilyBean family) {
             if (family.isSelect()) {
-                ToastMaster.toast(family.getMemberName());
+                View ivAvatar = view.findViewById(R.id.iv_avatar);
+                Pair<View, String> avatarPair = Pair.create(ivAvatar, "user_avatar");
+
+//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(FamilyTreeActivity.this, avatarPair);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeScaleUpAnimation(
+                        view,
+                        view.getWidth() / 2, view.getHeight() / 2,
+                        0, 0);
+
+                Intent intent = new Intent();
+                intent.setClass(FamilyTreeActivity.this, UserInfoActivity.class);
+                intent.putExtra(UserInfoActivity.KEY_USER_INFO, family);
+                startActivity(intent, options.toBundle());
             } else {
                 String currentFamilyId = family.getMemberId();
                 mFamilyPresenter.getFamilyData(currentFamilyId);
