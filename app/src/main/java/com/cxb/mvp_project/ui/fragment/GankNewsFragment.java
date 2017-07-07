@@ -1,5 +1,7 @@
 package com.cxb.mvp_project.ui.fragment;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import com.cxb.mvp_project.model.GankNewsBean;
 import com.cxb.mvp_project.presenter.GankNewsPresenter;
 import com.cxb.mvp_project.ui.adapter.GankNewsAdapter;
 import com.cxb.mvp_project.ui.adapter.OnListClickListener;
+import com.cxb.mvp_project.ui.main.GankShowImageActivity;
 import com.cxb.mvp_project.utils.ToastMaster;
 import com.cxb.mvp_project.view.IGankNewsView;
 
@@ -41,7 +45,10 @@ public class GankNewsFragment extends Fragment implements IGankNewsView {
 
     private List<GankNewsBean> mGankList;
     private GankNewsAdapter mGankAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
+    private int mLastVisibleItemPosition = 0;
+    private boolean mIsLoadingMore = false;
     private boolean mIsFirstPager = false;
     private String mTitle;
     private final int mTotalCount = 10;
@@ -112,6 +119,7 @@ public class GankNewsFragment extends Fragment implements IGankNewsView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mRecyclerView.removeOnScrollListener(mListScroll);
         mGankPresenter.detachView();
     }
 
@@ -127,14 +135,15 @@ public class GankNewsFragment extends Fragment implements IGankNewsView {
         mGankList = new ArrayList<>();
         mGankAdapter = new GankNewsAdapter(getActivity(), mGankList, mTitle);
         mGankAdapter.setOnListClickListener(mListClick);
-        final RecyclerView.LayoutManager layoutManager;
+
         if (getString(R.string.tab_title_welfare).equals(mTitle)) {
-            layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
-            layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         }
-        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mGankAdapter);
+        mRecyclerView.setOnScrollListener(mListScroll);
 
     }
 
@@ -146,15 +155,56 @@ public class GankNewsFragment extends Fragment implements IGankNewsView {
         }
     };
 
-    private final OnListClickListener mListClick = new OnListClickListener() {
+    private final RecyclerView.OnScrollListener mListScroll = new RecyclerView.OnScrollListener() {
         @Override
-        public void onItemClick(int position) {
-            ToastMaster.toast(mGankList.get(position).getDesc());
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            if (!mIsLoadingMore && newState == RecyclerView.SCROLL_STATE_IDLE
+                    && mLastVisibleItemPosition + 1 == mGankAdapter.getItemCount()) {
+                mIsLoadingMore = true;
+                mGankPresenter.getGankNewsData(mTitle, mTotalCount, mPage);
+            }
         }
 
         @Override
-        public void onTagClick(@ItemView int tag, int position) {
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (mLayoutManager instanceof LinearLayoutManager) {
+                LinearLayoutManager manager = (LinearLayoutManager) mLayoutManager;
+                mLastVisibleItemPosition = manager.findLastCompletelyVisibleItemPosition();
+            } else if (mLayoutManager instanceof StaggeredGridLayoutManager) {
+                StaggeredGridLayoutManager manager = (StaggeredGridLayoutManager) mLayoutManager;
+                int[] positions = new int[manager.getSpanCount()];
+                manager.findLastCompletelyVisibleItemPositions(positions);
+                int maxPosition = 0;
+                for (int position : positions) {
+                    if (position > maxPosition) {
+                        maxPosition = position;
+                    }
+                }
+                mLastVisibleItemPosition = maxPosition;
+            }
+        }
+    };
 
+    private final OnListClickListener mListClick = new OnListClickListener() {
+        @Override
+        public void onItemClick(View view, int position) {
+            final GankNewsBean gankNews = mGankList.get(position);
+            switch (view.getId()) {
+                case R.id.iv_picture:
+                    Pair<View, String> picturePair = Pair.create(view, getString(R.string.large_image_transition_name));
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), picturePair);
+
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), GankShowImageActivity.class);
+                    intent.putExtra(GankShowImageActivity.KEY_PICTURE_URL, gankNews.getUrl());
+                    startActivity(intent, options.toBundle());
+                    break;
+                default:
+                    ToastMaster.toast(gankNews.getUrl());
+                    break;
+            }
         }
     };
 
@@ -167,6 +217,7 @@ public class GankNewsFragment extends Fragment implements IGankNewsView {
     public void hideProgress() {
         mRefreshLayout.setRefreshing(false);
         mPlaceholder.setVisibility(View.GONE);
+        mIsLoadingMore = false;
     }
 
     @Override

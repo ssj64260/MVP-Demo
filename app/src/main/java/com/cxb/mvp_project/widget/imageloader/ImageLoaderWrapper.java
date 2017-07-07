@@ -1,5 +1,6 @@
 package com.cxb.mvp_project.widget.imageloader;
 
+import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
@@ -10,8 +11,15 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 public interface ImageLoaderWrapper {
 
-    void loadWithoutAnimate(ImageView imageView, String url, BitmapTransformation transformation, int placeholder, int errorImage);
+    void loadImageFitCenter(Context context, ImageView imageView, String url);
 
-    void loadImage(ImageView imageView, String url);
+    void loadImageFitCenter(Context context, ImageView imageView, String url, int placeholder, int errorImage);
 
+    void loadImageFitCenter(Context context, ImageView imageView, String url, int placeholder, int errorImage, BitmapTransformation transformation);
+
+    void loadImageCenterCrop(Context context, ImageView imageView, String url);
+
+    void loadImageCenterCrop(Context context, ImageView imageView, String url, int placeholder, int errorImage);
+
+    void loadImageCenterCrop(Context context, ImageView imageView, String url, int placeholder, int errorImage, BitmapTransformation transformation);
 }

@@ -13,11 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.cxb.mvp_project.widget.SquareImageView
+        <ImageView
             android:id="@+id/iv_picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:transitionName="@string/large_image_transition_name"
             tools:background="@color/black_alpha_54" />
 
         <TextView
@@ -38,8 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/iv_picture"
             android:layout_alignTop="@+id/tv_datetime"
-            android:layout_toEndOf="@+id/tv_datetime"
             android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_datetime"
             android:ellipsize="end"
             android:gravity="center_vertical|end"
             android:maxLines="1"

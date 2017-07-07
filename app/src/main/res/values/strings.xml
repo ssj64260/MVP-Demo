@@ -38,4 +38,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
 
+    <!--GankNewsFragment-->
+    <string name="large_image_transition_name">large_image</string>
+    
 </resources>

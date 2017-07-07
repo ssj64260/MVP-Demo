@@ -104,6 +104,7 @@ public class FamilyTreeView2 extends ViewGroup {
 
     private ImageLoaderWrapper mImageLoader;//图片加载器
     private GlideCircleTransform mTransform;//画圆类
+    private final int mPlaceholder = R.drawable.family_avatar;//头像占位符
 
     public FamilyTreeView2(Context context) {
         this(context, null, 0);
@@ -368,7 +369,7 @@ public class FamilyTreeView2 extends ViewGroup {
         familyView.setTag(family);
         final String url = family.getMemberImg();
         if (!TextUtils.isEmpty(url)) {
-            mImageLoader.loadWithoutAnimate(ivAvatar, url, mTransform, R.drawable.family_avatar, R.drawable.family_avatar);
+            mImageLoader.loadImageCenterCrop(getContext(), ivAvatar, url, mPlaceholder, mPlaceholder, mTransform);
         }
         if (family.isSelect()) {
             ivAvatar.setBackgroundResource(R.drawable.shape_red_circle);

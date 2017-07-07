@@ -52,7 +52,7 @@ public class UserInfoActivity extends BaseActivity {
 
         mTransform = new GlideCircleTransform(this);
         mImageLoader = ImageLoaderFactory.getLoader();
-        mImageLoader.loadWithoutAnimate(ivAvatar, url, mTransform, R.drawable.family_avatar, R.drawable.family_avatar);
+        mImageLoader.loadImageCenterCrop(this, ivAvatar, url, 0, 0, mTransform);
 
         tvName.setText(name);
         tvCall.setText("(" + call + ")");

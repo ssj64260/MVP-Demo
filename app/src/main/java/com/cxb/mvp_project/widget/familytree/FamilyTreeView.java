@@ -43,7 +43,6 @@ public class FamilyTreeView extends ViewGroup {
     private int mScreenWidth;//屏幕宽度PX
     private int mScreenHeight;//屏幕高度PX
 
-
     private int mItemWidthPX;//家庭成员View宽度PX
     private int mItemHeightPX;//家庭成员View高度PX
     private int mMaxWidthPX;//最大宽度PX
@@ -97,6 +96,7 @@ public class FamilyTreeView extends ViewGroup {
 
     private ImageLoaderWrapper mImageLoader;//图片加载器
     private GlideCircleTransform mTransform;//画圆类
+    private final int mPlaceholder = R.drawable.family_avatar;//头像占位符
 
     public FamilyTreeView(Context context) {
         this(context, null, 0);
@@ -328,7 +328,7 @@ public class FamilyTreeView extends ViewGroup {
 
         final String url = family.getMemberImg();
         if (!TextUtils.isEmpty(url)) {
-            mImageLoader.loadWithoutAnimate(ivAvatar, url, mTransform, R.drawable.family_avatar, R.drawable.family_avatar);
+            mImageLoader.loadImageCenterCrop(getContext(), ivAvatar, url, mPlaceholder, mPlaceholder, mTransform);
         }
         if (family.isSelect()) {
             ivAvatar.setBackgroundResource(R.drawable.shape_red_circle);

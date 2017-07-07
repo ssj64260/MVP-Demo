@@ -27,14 +27,17 @@ public class GankNewsAdapter extends RecyclerView.Adapter {
 
     private OnListClickListener mOnListClickListener;
 
+    private Context mContext;
     private List<GankNewsBean> mList;
     private LayoutInflater mInflater;
     private int mItemLayout;
     private ImageLoaderWrapper mImageLoader;
+    private final int mPlaceHolder = R.drawable.ic_placeholder;
 
     public GankNewsAdapter(Context context, List<GankNewsBean> list, String type) {
+        this.mContext = context;
         this.mList = list;
-        mInflater = LayoutInflater.from(context);
+        this.mInflater = LayoutInflater.from(context);
 
         mImageLoader = ImageLoaderFactory.getLoader();
 
@@ -67,9 +70,18 @@ public class GankNewsAdapter extends RecyclerView.Adapter {
         final Date date = DateTimeUtils.StringToDateTime(datetime);
         final String author = gankNews.getWho();
 
-        if (imageList != null && imageList.size() > 0 && holder.ivPicture != null) {
-            final String imageUrl = imageList.get(0);
-            mImageLoader.loadImage(holder.ivPicture, API.getCankImageURL(imageUrl, Config.GANK_IMAGE_MAX_WIDTH));
+        if (holder.ivPicture != null) {
+            if (mItemLayout == R.layout.item_gank_welfare) {
+                mImageLoader.loadImageFitCenter(mContext, holder.ivPicture, API.getCankImageURL(gankNews.getUrl(), Config.GANK_IMAGE_MAX_WIDTH));
+            } else {
+                final String imageUrl;
+                if (imageList != null && imageList.size() > 0) {
+                    imageUrl = API.getCankImageURL(imageList.get(0), Config.GANK_IMAGE_MAX_WIDTH);
+                } else {
+                    imageUrl = "";
+                }
+                mImageLoader.loadImageCenterCrop(mContext, holder.ivPicture, imageUrl);
+            }
         }
 
         if (holder.tvDescription != null) {
@@ -117,7 +129,13 @@ public class GankNewsAdapter extends RecyclerView.Adapter {
         public void onClick(View view) {
             if (mOnListClickListener != null) {
                 final int position = (int) view.getTag();
-                mOnListClickListener.onItemClick(position);
+                final View clickView;
+                if (mItemLayout == R.layout.item_gank_welfare) {
+                    clickView = view.findViewById(R.id.iv_picture);
+                } else {
+                    clickView = view;
+                }
+                mOnListClickListener.onItemClick(clickView, position);
             }
         }
     };
