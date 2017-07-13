@@ -9,7 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.cxb.mvp_project.R;
-import com.cxb.mvp_project.app.BaseActivity;
+import com.cxb.mvp_project.app.BaseAppCompatActivity;
 import com.cxb.mvp_project.config.Config;
 import com.cxb.mvp_project.ui.main.MainActivity;
 import com.cxb.mvp_project.utils.AppManager;
@@ -29,7 +29,7 @@ import static com.cxb.mvp_project.config.Config.REQUEST_TO_SETTING;
  * 启动页面
  */
 
-public class LaunchActivity extends BaseActivity {
+public class LaunchActivity extends BaseAppCompatActivity {
 
     private int permissionPosition = 0;//当前请求权限位置
     private String[] permissions;

@@ -72,7 +72,8 @@ public class GankNewsAdapter extends RecyclerView.Adapter {
 
         if (holder.ivPicture != null) {
             if (mItemLayout == R.layout.item_gank_welfare) {
-                mImageLoader.loadImageFitCenter(mContext, holder.ivPicture, API.getCankImageURL(gankNews.getUrl(), Config.GANK_IMAGE_MAX_WIDTH));
+                final String imageUrl = API.getCankImageURL(gankNews.getUrl(), Config.GANK_IMAGE_MAX_WIDTH);
+                mImageLoader.loadImageFitCenter(mContext, holder.ivPicture, imageUrl, 0, R.drawable.ic_placeholder);
             } else {
                 final String imageUrl;
                 if (imageList != null && imageList.size() > 0) {
