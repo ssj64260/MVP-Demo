@@ -3,7 +3,7 @@ package com.cxb.mvp_project.ui.main;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.cxb.mvp_project.R;
@@ -41,12 +41,6 @@ public class GankShowImageActivity extends BaseAppCompatActivity {
         mToolbar.setLogo(R.drawable.ic_welfare);
         mToolbar.setSubtitle(R.string.tab_title_welfare);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -61,14 +55,13 @@ public class GankShowImageActivity extends BaseAppCompatActivity {
         mLoader.loadImageFitCenter(this, mImage, url, 0, 0);
     }
 
-    private View.OnClickListener click = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case android.R.id.home:
-                    finish();
-                    break;
-            }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
         }
-    };
+        return super.onOptionsItemSelected(item);
+    }
 }

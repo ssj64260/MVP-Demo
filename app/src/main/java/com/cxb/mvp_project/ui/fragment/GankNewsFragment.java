@@ -137,7 +137,9 @@ public class GankNewsFragment extends Fragment implements IGankNewsView {
         mGankAdapter.setOnListClickListener(mListClick);
 
         if (getString(R.string.tab_title_welfare).equals(mTitle)) {
-            mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+            mLayoutManager = layoutManager;
         } else {
             mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         }
@@ -229,6 +231,8 @@ public class GankNewsFragment extends Fragment implements IGankNewsView {
 
     @Override
     public void updateNewsList(List<GankNewsBean> gankNewsList) {
+        final int startPosition = mGankList.size();
+        final int itemCount = gankNewsList.size();
         if (gankNewsList.size() > 0) {
             if (gankNewsList.size() < mTotalCount) {
                 //TODO 设置不能加载更多
@@ -236,7 +240,12 @@ public class GankNewsFragment extends Fragment implements IGankNewsView {
                 mPage++;
             }
             mGankList.addAll(gankNewsList);
-            mGankAdapter.notifyDataSetChanged();
+            if (startPosition == 0) {
+                mGankAdapter.notifyDataSetChanged();
+            } else {
+                mGankAdapter.notifyItemInserted(startPosition);
+            }
+//            mGankAdapter.notifyItemRangeChanged(startPosition, itemCount);
         }
 
         if (mGankList.size() == 0) {

@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.request.RequestOptions;
 import com.cxb.mvp_project.R;
 
 /**
@@ -28,13 +29,19 @@ public class ImageLoader implements ImageLoaderWrapper {
 
     @Override
     public void loadImageFitCenter(Context context, ImageView imageView, String url, int placeholder, int errorImage, BitmapTransformation transformation) {
-        Glide.with(context)
-                .load(url)
+        RequestOptions options = new RequestOptions()
                 .placeholder(placeholder)
                 .error(errorImage)
-                .transform(transformation)
                 .fitCenter()
-                .dontAnimate()
+                .dontAnimate();
+
+        if (transformation != null) {
+            options.transform(transformation);
+        }
+
+        Glide.with(context)
+                .load(url)
+                .apply(options)
                 .into(imageView);
     }
 
@@ -50,13 +57,19 @@ public class ImageLoader implements ImageLoaderWrapper {
 
     @Override
     public void loadImageCenterCrop(Context context, ImageView imageView, String url, int placeholder, int errorImage, BitmapTransformation transformation) {
-        Glide.with(context)
-                .load(url)
+        RequestOptions options = new RequestOptions()
                 .placeholder(placeholder)
                 .error(errorImage)
-                .transform(transformation)
                 .centerCrop()
-                .dontAnimate()
+                .dontAnimate();
+
+        if (transformation != null) {
+            options.transform(transformation);
+        }
+
+        Glide.with(context)
+                .load(url)
+                .apply(options)
                 .into(imageView);
     }
 }
