@@ -15,7 +15,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("D:\\msquare\\MVP-Demo\\keystore\\chenxuebin.jks")
+            storeFile file("F:\\DOCUMENT\\Keystore\\chenxuebin.jks")
             storePassword "damima123"
             keyAlias "chenxuebin"
             keyPassword "damima123"
