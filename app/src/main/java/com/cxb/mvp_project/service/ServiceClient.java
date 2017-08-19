@@ -48,10 +48,11 @@ public class ServiceClient {
     public static OkHttpClient getOkHttpClient() {
         if (mClientBuilder == null) {
             mClientBuilder = new OkHttpClient.Builder()
+//                    .addInterceptor(new HttpInterceptor().setLevel(HttpInterceptor.BODY))
+                    .addInterceptor(new LoggerInterceptor())
                     .connectTimeout(10000, TimeUnit.MILLISECONDS)
                     .readTimeout(10000, TimeUnit.MILLISECONDS)
-                    .writeTimeout(10000, TimeUnit.MILLISECONDS)
-                    .addInterceptor(new HttpInterceptor().setLevel(HttpInterceptor.BODY));
+                    .writeTimeout(10000, TimeUnit.MILLISECONDS);
 //            initIgonreVerification();
         }
         return mClientBuilder.build();

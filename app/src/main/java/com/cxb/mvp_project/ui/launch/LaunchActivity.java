@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Action;
 
 import static com.cxb.mvp_project.config.Config.REQUEST_TO_SETTING;
 
@@ -49,13 +49,14 @@ public class LaunchActivity extends BaseAppCompatActivity {
         Observable
                 .timer(1000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Long>() {
+                .doOnComplete(new Action() {
                     @Override
-                    public void accept(@io.reactivex.annotations.NonNull Long num) throws Exception {
+                    public void run() throws Exception {
                         startActivity(new Intent(LaunchActivity.this, MainActivity.class));
                         finish();
                     }
-                });
+                })
+                .subscribe();
     }
 
     private void checkPermission() {
@@ -113,7 +114,6 @@ public class LaunchActivity extends BaseAppCompatActivity {
             permissionDialog.setConfirmButton(getString(R.string.permission_dialog_btn_setting), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
                     AppManager.showInstalledAppDetails(LaunchActivity.this, getPackageName(), REQUEST_TO_SETTING);
                 }
             });

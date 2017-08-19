@@ -145,7 +145,7 @@ public class GankNewsFragment extends Fragment implements IGankNewsView {
         }
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mGankAdapter);
-        mRecyclerView.setOnScrollListener(mListScroll);
+        mRecyclerView.addOnScrollListener(mListScroll);
 
     }
 
