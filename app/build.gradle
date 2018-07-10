@@ -3,7 +3,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.cxb.mvp_project"
         minSdkVersion 21
@@ -41,12 +41,14 @@ android {
 
     //自定义APK打包名称
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def appName = 'MVP'
-            def buildType = buildType.name
-            def version = defaultConfig.versionName
-            def build = defaultConfig.versionCode
-            output.outputFile = new File(output.outputFile.parent, appName + "-" + buildType + "-V" + version + "-Build" + build + ".apk");
+        variant.outputs.all {
+            if (outputFileName.endsWith('.apk')) {
+                def appName = 'MVP_'
+                def buildType = buildType.name
+                def version = defaultConfig.versionName
+                def build = defaultConfig.versionCode
+                outputFileName = appName + version + "_build" + build + "_" + buildType + ".apk"
+            }
         }
     }
 }
